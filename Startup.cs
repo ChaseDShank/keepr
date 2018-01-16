@@ -71,7 +71,11 @@ namespace keepr
                 app.UseDeveloperExceptionPage();
                 app.UseCors("CorsDevPolicy");
             }
+            
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

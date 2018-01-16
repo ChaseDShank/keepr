@@ -24,12 +24,12 @@
             </form>
           </div>
           <div class="modal-footer">
-              <p v-if="loginForm" @click="toggleLoginForm" class="action">Don't have an account?
-                  <strong>Sign up!</strong>
-              </p>
-              <p v-else @click="toggleLoginForm" class="action">Already a user?
-                  <b>Click here to login</b>
-              </p>
+            <p v-if="loginForm" @click="toggleLoginForm" class="action">Don't have an account?
+              <strong>Sign up!</strong>
+            </p>
+            <p v-else @click="toggleLoginForm" class="action">Already a user?
+              <b>Click here to login</b>
+            </p>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -63,12 +63,12 @@
             </form>
           </div>
           <div class="modal-footer">
-              <p v-if="loginForm" @click="toggleLoginForm" class="action">Don't have an account?
-                  <strong>Sign up!</strong>
-              </p>
-              <p v-else @click="toggleLoginForm" class="action">Already a user?
-                  <b>Click here to login</b>
-              </p>
+            <button v-if="loginForm" @click="toggleLoginForm" class="action">Don't have an account?
+              <b>Sign up!</b>
+            </button>
+            <p v-else @click="toggleLoginForm" class="action">Already a user?
+              <b>Click here to login</b>
+            </p>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -82,17 +82,23 @@
     <nav class="navbar">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">Keepr</a>
+          <a class="navbar-brand" href="#home">Keepr</a>
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-          <li v-if="!user" data-toggle="modal" data-target="#myModal">
-            <a href="#">
-              <span class="glyphicon glyphicon-user"></span>Login</a>
+          <li v-if="user">
+            <h3 id="welcome">Welcome
+              <a href="#profile">{{user.username}}</a>
+            </h3>
           </li>
+
           <li v-if="user">
             <a @click="logout">
               <span class="glyphicon glyphicon-log-in"></span> Logout</a>
+          </li>
+          <li v-else data-toggle="modal" data-target="#myModal">
+            <a href="#">
+              <span class="glyphicon glyphicon-user"></span>Login</a>
           </li>
 
 
@@ -119,6 +125,7 @@
         }
       }
     },
+
     methods: {
       toggleLoginForm() {
         this.loginForm = !this.loginForm
@@ -129,7 +136,7 @@
           email: '',
           password: ''
         },
-        $('#myModal').modal('toggle')
+          $('#myModal').modal('toggle')
       },
       submitRegister() {
         this.$store.dispatch('register', this.register)
@@ -140,8 +147,9 @@
         },
           $('#myModal').modal('toggle')
       },
-      logout() {
+      logout() {  
         this.$store.dispatch('logout')
+        location.reload()
       }
     },
     computed: {
@@ -162,15 +170,21 @@
   li a {
     color: black
   }
+  li a:hover{
+    cursor: pointer;
+  }
+
+  #welcome {
+    margin-right: 20vw
+  }
 
   .navbar-brand {
     color: rgb(27, 2, 66)
   }
 
-  .action{
+  .action {
     cursor: pointer;
   }
-  .action:hover{
-    color: rgb(148, 42, 4);
-  }
+
+
 </style>
