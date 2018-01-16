@@ -61,7 +61,7 @@ var store = new vuex.Store({
                     commit('handleError', err)
                 })
         },
-        logout({commit, dispatch}){debugger
+        logout({commit, dispatch}){
             auth.delete('accounts/logout')
             .then(res => {
                 commit('setUser', {})

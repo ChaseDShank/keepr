@@ -82,17 +82,17 @@
     <nav class="navbar">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#home">Keepr</a>
+          <a id="logo" class="navbar-brand" href="#">Keepr</a>
         </div>
 
         <ul class="nav navbar-nav navbar-right">
-          <li v-if="user">
+          <li v-if="user.username">
             <h3 id="welcome">Welcome
-              <a href="#profile">{{user.username}}</a>
+              <router-link :to="{name: 'Profile'}">{{user.username}}</router-link>
             </h3>
           </li>
 
-          <li v-if="user">
+          <li v-if="user.username">
             <a @click="logout">
               <span class="glyphicon glyphicon-log-in"></span> Logout</a>
           </li>
@@ -149,7 +149,6 @@
       },
       logout() {  
         this.$store.dispatch('logout')
-        location.reload()
       }
     },
     computed: {
@@ -164,11 +163,13 @@
 <style>
   .navbar {
     background-color: rgb(148, 42, 4);
-    color: black
+    color: white;
+   font-family: 'Berkshire Swash', cursive;
+    
   }
 
   li a {
-    color: black
+    color: white
   }
   li a:hover{
     cursor: pointer;
@@ -178,13 +179,20 @@
     margin-right: 20vw
   }
 
-  .navbar-brand {
-    color: rgb(27, 2, 66)
-  }
+ #logo{
+   color: white;
+   font-size: 3em;
+   font-family: 'Berkshire Swash', cursive;
+
+ }
 
   .action {
     cursor: pointer;
   }
+
+
+
+  
 
 
 </style>
