@@ -1,21 +1,40 @@
 <template>
-  <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="container">
-        <img src="https://www.royalcanin.com/~/media/Royal-Canin/Product-Categories/dog-medium-landing-hero.ashx" alt="doggo">
-        <div class="overlay"></div>
-        <div class="button" @click="addedAlert">
-          <a href="#"> BUTTON </a>
+  <div>
+  <div class="row text-center">
+    <div v-for="keep in keeps">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
+        <div class="card-header">
+          <h4>{{keep.title}}</h4>
+          <div class="card-body">
+            <img data-toggle="modal" data-target="#openKeep" @click="setActiveKeep(keep)" :src="keep.imgUrl" alt="Keepr Keep">
+          </div>
+          <p class="card-footer">{{keep.description}}</p>
+          <button v-if="keep.userId == user.id" @click="deleteKeep(keep)" class="btn btn-danger">Delete</button>
         </div>
       </div>
     </div>
-
-
     <div id="addedAlert">Added!</div>
-
-    <!-- The actual snackbar -->
   </div>
 
+
+
+  <div id="openKeep" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h2 class="modal-title">{{keep.title}}</h2>
+              </div>
+              <div class="modal-body text-center">
+                      <div>
+                          <img id="bigPicture" class="thumbnail" :src="keep.imgUrl" alt="Keepr Keep">
+
+                      </div> 
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
 
 
 
@@ -25,6 +44,7 @@
   export default {
     data() {
       return {
+        keep: {}
       }
     },
     methods: {
@@ -32,14 +52,26 @@
         var x = document.getElementById("addedAlert")
         x.className = "show";
         setTimeout(function () { x.className = x.className.replace("show", ""); }, 2500);
+      },
+      deleteKeep(keep) {
+        this.$store.dispatch('deleteKeep', keep)
+      },
+      setActiveKeep(keep){
+        this.keep = keep
       }
 
     },
+    mounted() {
+      this.$store.dispatch('getKeeps')
+    },
     computed: {
-    user(){
-      return this.$store.state.user
+      user() {
+        return this.$store.state.user
+      },
+      keeps() {
+        return this.$store.state.keeps
+      }
     }
-  }
   }
 </script>
 
@@ -118,8 +150,6 @@
 
 
 
-
-
   .container {
     position: relative;
     margin-top: 50px;
@@ -141,14 +171,6 @@
     display: block;
     background: rgba(0, 0, 0, .3);
   }
-
-  img {
-    position: absolute;
-    width: 500px;
-    height: 300px;
-    left: 0;
-  }
-
 
 
   .container:hover .title {
@@ -177,4 +199,20 @@
   .container:hover .button {
     opacity: 1;
   }
+
+  #bigPicture{
+    width: 100%
+  }
+
+
+  img {
+    width: 20vw;
+    height: auto
+  }
+
+  .btn-danger {
+    z-index: 1
+  }
+
+  
 </style>

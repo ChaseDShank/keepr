@@ -82,13 +82,15 @@
     <nav class="navbar">
       <div class="container-fluid">
         <div class="navbar-header">
-          <a id="logo" class="navbar-brand" href="#">Keepr</a>
+          
+              <router-link :to="{name: 'Home'}"><h5 id="logo" class="navbar-brand">Keepr</h5></router-link>
+          
         </div>
 
         <ul class="nav navbar-nav navbar-right">
           <li v-if="user.username">
-            <h3 id="welcome">Welcome
-              <router-link :to="{name: 'Profile'}">{{user.username}}</router-link>
+            <h3 id="welcome">Welcome,
+              <router-link :to="{name: 'Profile'}"> {{user.username}}</router-link>
             </h3>
           </li>
 
@@ -164,7 +166,7 @@
   .navbar {
     background-color: rgb(148, 42, 4);
     color: white;
-   font-family: 'Berkshire Swash', cursive;
+  
     
   }
 

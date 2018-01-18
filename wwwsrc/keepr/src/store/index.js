@@ -20,11 +20,14 @@ let auth = axios.create({
 
 
 vue.use(vuex)
+vue.use(router)
 
 var store = new vuex.Store({
     state: {
         err: {},
-        user: {}
+        user: {},
+        keeps: [],
+        vaults: []
 },
 
     mutations: { 
@@ -33,10 +36,77 @@ var store = new vuex.Store({
         },
         setUser(state, user){
             state.user = user
+        },
+        setKeeps(state, keeps){
+            state.keeps = keeps
+        },
+        setVaults(state, vaults){
+            state.vaults = vaults
         }
     },
 
     actions: { 
+        // Keep actions -------------------------------------
+        addKeep({commit, dispatch}, payload){
+            api.post('keeps', payload)
+            .then(res => { console.log(res)
+                dispatch('getKeeps')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
+        getKeeps({commit, dispatch}){
+            api('keeps')
+                .then(res => {
+                    console.log(res)
+                    commit('setKeeps', res.data)
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
+        },
+        deleteKeep({commit, dispatch}, payload){
+            api.delete('keeps/' + payload.id)
+            .then(res => {
+                dispatch('getKeeps')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
+
+        //Vault actions--------------------------------------
+        addVault({commit, dispatch}, payload){
+            api.post('vaults', payload)
+            .then(res => { console.log(res)
+                dispatch('getVaults')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
+        getVaults({commit, dispatch}){
+            api('vaults')
+                .then(res => {
+                    console.log(res)
+                    commit('setVaults', res.data)
+                })
+                .catch(err => {
+                    commit('handleError', err)
+                })
+        },
+        deleteVault({commit, dispatch}, payload){
+            api.delete('vaults/' + payload.id)
+            .then(res => {
+                dispatch('getVaults')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
+
+        // User actions -------------------------------------
         register({commit, dispatch}, payload){
             auth.post('accounts/register', payload)
             .then(res => {
