@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Navbar from '@/components/Navbar'
 import Profile from '@/components/Profile'
+import Vault from '@/components/Vault'
 Vue.use(Router)
 
 export default new Router({
@@ -16,6 +17,11 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/vault',
+      name: 'Vault',
+      component: Vault
     }
    
    

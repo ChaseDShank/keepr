@@ -41,6 +41,8 @@ namespace keepr.Controllers
             var user = HttpContext.User;
             var id = Int32.Parse(user.Identity.Name);
             keep.UserId = id;
+            keep.KeepCount = 0;
+            keep.ViewCount = 0;
             return db.Add(keep);
         }
 

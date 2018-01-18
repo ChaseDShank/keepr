@@ -31,13 +31,16 @@ namespace keepr.Repositories
         public Keep Add(Keep keep)
         {
 
-            int id = _db.ExecuteScalar<int>("INSERT INTO Keeps (Title, Description, ImgUrl, UserId)"
-                        + " VALUES(@Title, @Description, @ImgUrl, @UserId); SELECT LAST_INSERT_ID()", new
+            int id = _db.ExecuteScalar<int>("INSERT INTO Keeps (Title, Description, ImgUrl, UserId, KeepCount, ViewCount)"
+                        + " VALUES(@Title, @Description, @ImgUrl, @UserId, @KeepCount, @ViewCount); SELECT LAST_INSERT_ID()", new
                         {
                             keep.Title,
                             keep.Description,
                             keep.ImgUrl,
-                            keep.UserId
+                            keep.UserId,
+                            keep.KeepCount,
+                            keep.ViewCount
+
                         });
             keep.Id = id;
             return keep;
@@ -50,8 +53,10 @@ namespace keepr.Repositories
                 UPDATE Keeps SET  
                     Title = @Title,
                     Description = @Description,
-                    ImgUrl = @ImgUrl
-                    UserId = @UserId
+                    ImgUrl = @ImgUrl,
+                    UserId = @UserId,
+                    KeepCount = @KeepCount,
+                    ViewCount = @ViewCount
                 WHERE Id = {id};
                 SELECT * FROM Keeps WHERE id = {id};", keep);
         }

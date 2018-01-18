@@ -46,6 +46,16 @@ var store = new vuex.Store({
     },
 
     actions: { 
+
+        addKeepToVault({commit, dispatch}, payload){
+            api.post('vaultkeeps', payload)
+            .then(res => { console.log(res)
+                dispatch('getKeeps')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
         // Keep actions -------------------------------------
         addKeep({commit, dispatch}, payload){
             api.post('keeps', payload)
@@ -59,7 +69,6 @@ var store = new vuex.Store({
         getKeeps({commit, dispatch}){
             api('keeps')
                 .then(res => {
-                    console.log(res)
                     commit('setKeeps', res.data)
                 })
                 .catch(err => {
@@ -68,6 +77,16 @@ var store = new vuex.Store({
         },
         deleteKeep({commit, dispatch}, payload){
             api.delete('keeps/' + payload.id)
+            .then(res => {
+                dispatch('getKeeps')
+            })
+            .catch(err => {
+                commit('handleError', err)
+            })
+        },
+        incViews({commit, dispatch}, payload){
+            payload.viewCount ++
+            api.put('keeps/'+payload.id, payload)
             .then(res => {
                 dispatch('getKeeps')
             })

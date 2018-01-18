@@ -4,16 +4,17 @@
     <div v-for="keep in keeps">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
         <div class="card-header">
-          <h4>{{keep.title}}</h4>
+          <h3><strong>{{keep.title}}</strong></h3>
           <div class="card-body">
-            <img data-toggle="modal" data-target="#openKeep" @click="setActiveKeep(keep)" :src="keep.imgUrl" alt="Keepr Keep">
+            <img id="img"data-toggle="modal" data-target="#openKeep" @click="setActiveKeep(keep), incViews(keep, user)" :src="keep.imgUrl" alt="Keepr Keep">
           </div>
           <p class="card-footer">{{keep.description}}</p>
+          <div class="col-xs-6"><h6>Views: {{keep.viewCount}}</h6></div>
+          <div class="col-xs-6"><h6>Keeps: {{keep.keepCount}}</h6></div>
           <button v-if="keep.userId == user.id" @click="deleteKeep(keep)" class="btn btn-danger">Delete</button>
         </div>
       </div>
     </div>
-    <div id="addedAlert">Added!</div>
   </div>
 
 
@@ -23,12 +24,11 @@
           <div class="modal-content">
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h2 class="modal-title">{{keep.title}}</h2>
+                  <h1 class="modal-title">{{keep.title}}</h1>
               </div>
               <div class="modal-body text-center">
                       <div>
                           <img id="bigPicture" class="thumbnail" :src="keep.imgUrl" alt="Keepr Keep">
-
                       </div> 
               </div>
           </div>
@@ -48,16 +48,20 @@
       }
     },
     methods: {
-      addedAlert() {
-        var x = document.getElementById("addedAlert")
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 2500);
-      },
       deleteKeep(keep) {
         this.$store.dispatch('deleteKeep', keep)
       },
       setActiveKeep(keep){
         this.keep = keep
+      },
+      incViews(keep, user){
+        if(user == ""){
+          return
+        }
+        if(user.id != keep.userId){
+          this.$store.dispatch('incViews', keep)
+        }
+        else return
       }
 
     },
@@ -76,139 +80,26 @@
 </script>
 
 <style scoped>
-  #addedAlert {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: rgb(33, 104, 51);
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    top: 10vh;
-  }
-
-  #addedAlert.show {
-    visibility: visible;
-    /* Show the snackbar */
-    -webkit-animation: fadein 0.75s, fadeout 0.5s 2.0s;
-    animation: fadein 0.5s, fadeout .75s 2.0s;
-  }
-
-  @-webkit-keyframes fadein {
-    from {
-      top: 0;
-      opacity: 0;
-    }
-    to {
-      top: 30px;
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadein {
-    from {
-      top: 0;
-      opacity: 0;
-    }
-    to {
-      top: 30px;
-      opacity: 1;
-    }
-  }
-
-  @-webkit-keyframes fadeout {
-    from {
-      top: 30px;
-      opacity: 1;
-    }
-    to {
-      top: 0;
-      opacity: 0;
-    }
-  }
-
-  @keyframes fadeout {
-    from {
-      top: 30px;
-      opacity: 1;
-    }
-    to {
-      top: 0;
-      opacity: 0;
-    }
-  }
-
+  
   .row {
     max-width: 100vw;
     margin: 0px
   }
 
 
-
-
-  .container {
-    position: relative;
-    margin-top: 50px;
-    width: 500px;
-    height: 300px;
-  }
-
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0);
-    transition: background 0.5s ease;
-  }
-
-  .container:hover .overlay {
-    display: block;
-    background: rgba(0, 0, 0, .3);
-  }
-
-
-  .container:hover .title {
-    top: 90px;
-  }
-
-  .button {
-    position: absolute;
-    width: 500px;
-    left: 0;
-    top: 180px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity .35s ease;
-  }
-
-  .button a {
-    width: 200px;
-    padding: 12px 48px;
-    text-align: center;
-    color: white;
-    border: solid 2px white;
-    z-index: 1;
-  }
-
-  .container:hover .button {
-    opacity: 1;
-  }
-
   #bigPicture{
     width: 100%
   }
-
 
   img {
     width: 20vw;
     height: auto
   }
+  
+  #img:hover{
+        cursor: pointer;
+    }
+
 
   .btn-danger {
     z-index: 1
