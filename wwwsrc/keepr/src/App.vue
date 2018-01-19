@@ -25,5 +25,6 @@ export default {
 <style>
 body{
   font-family: 'Quattrocento Sans', sans-serif;
+
 }
 </style>
