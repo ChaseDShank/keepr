@@ -42,7 +42,7 @@
             <span>Add to Vault: </span>
             <form>
             <select v-model="vaultKeep.vaultId">
-              <option :value="vault.id" v-for="vault in vaults">{{vault.name}}</option>
+              <option :value="vault.id" v-for="vault in vaults" v-if="vault.userId == user.id">{{vault.name}}</option>
             </select>
           </form>
             <span><button @click="addToVault(keep)">ADD</button></span>
