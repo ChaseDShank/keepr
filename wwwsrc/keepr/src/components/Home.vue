@@ -1,20 +1,26 @@
 <template>
   <div>
     <div class="row text-center">
-      <div v-for="keep in keeps">
+
+      <div v-for="keep in keeps">   
+        
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
           <div class="card-header">
             <h3>
+
               <strong>{{keep.title}}</strong>
             </h3>
             <div class="card-body">
+
+              <button v-if="keep.userId == user.id" @click="deleteKeep(keep)" class="btn btn-danger">Delete</button>
+             
               <img id="img" data-toggle="modal" data-target="#openKeep" @click="setActiveKeep(keep), incViews(keep, user)" :src="keep.imgUrl"
                 alt="Keepr Keep">
+                
+
             </div>
             <p class="card-footer">{{keep.description}}</p>
-            <!-- <div class="col-xs-6"><h6>Views: {{keep.viewCount}}</h6></div>
-          <div class="col-xs-6"><h6>Keeps: {{keep.keepCount}}</h6></div> -->
-            <button v-if="keep.userId == user.id" @click="deleteKeep(keep)" class="btn btn-danger">Delete</button>
+                   
           </div>
         </div>
       </div>
@@ -41,11 +47,13 @@
           <div class="modal-footer text-center">
             <span>Add to Vault: </span>
             <form>
-            <select v-model="vaultKeep.vaultId">
-              <option :value="vault.id" v-for="vault in vaults" v-if="vault.userId == user.id">{{vault.name}}</option>
-            </select>
-          </form>
-            <span><button @click="addToVault(keep)">ADD</button></span>
+              <select v-model="vaultKeep.vaultId">
+                <option :value="vault.id" v-for="vault in vaults" v-if="vault.userId == user.id">{{vault.name}}</option>
+              </select>
+            </form>
+            <span>
+              <button @click="addToVault(keep)">ADD</button>
+            </span>
           </div>
         </div>
       </div>
@@ -82,8 +90,8 @@
         else return
       },
 
-      addToVault(keep){
-        this.vaultKeep.keepId = keep.id 
+      addToVault(keep) {
+        this.vaultKeep.keepId = keep.id
         this.$store.dispatch('addKeepToVault', this.vaultKeep)
       }
 
@@ -91,6 +99,7 @@
     mounted() {
       this.$store.dispatch('getKeeps')
       this.$store.dispatch('getVaults')
+    
     },
     computed: {
       user() {
@@ -99,7 +108,7 @@
       keeps() {
         return this.$store.state.keeps
       },
-      vaults(){
+      vaults() {
         return this.$store.state.vaults
       }
     }
@@ -109,25 +118,51 @@
 <style scoped>
   .row {
     max-width: 100vw;
-    margin: 0px
+    margin: 0px;
   }
 
 
   #bigPicture {
-    width: 100%
+    width: 100%;
   }
 
   img {
     width: 20vw;
-    height: auto
+    height: auto;
   }
 
   #img:hover {
     cursor: pointer;
   }
-
+  
+  .card-body:hover .btn-danger {
+    opacity: 1
+  }
 
   .btn-danger {
-    z-index: 1
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    width: 67px;
+    height: 67px;
+    border-radius: 50%;
+
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

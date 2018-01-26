@@ -94,9 +94,10 @@
                         <div class="card-title">
                         <router-link :to="'/vault'+vault.id" style="font-size: 2em">{{vault.name}}</router-link>
                             </div>
-                            <div class="card-body">
-                                <h5>{{vault.description}}</h5>
-                            </div>
+                           
+                            <div class="card-footer">
+                                    <button @click="deleteVault(vault)" class="btn btn-danger">Delete</button>
+                                </div>
                         
                     </div>
                 </div>
@@ -160,6 +161,9 @@
                 console.log(this.vault)
                 $('#vaultModal').modal('toggle')
                 this.vault = {}
+            },
+            deleteVault(vault){
+                this.$store.dispatch('deleteVault', vault)
             },
             clearKeepForm() {
                 this.keep = {}

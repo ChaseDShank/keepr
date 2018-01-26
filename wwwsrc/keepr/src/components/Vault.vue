@@ -1,6 +1,9 @@
 <template>
-
-<h1>hello</h1>
+<div>
+<div v-for="v in vaultKeeps">
+    <h2>{{vaultKeep.vaultId}}</h2>
+</div>
+</div>
 
 </template>
 
@@ -16,6 +19,7 @@ export default {
         mounted() {
             this.$store.dispatch('getKeeps')
             this.$store.dispatch('getVaults')
+            this.$store.dispatch('getKeepsByVault')
         },
 
         methods: {},
@@ -29,6 +33,9 @@ export default {
             },
             vaults(){
                 return this.$store.state.vaults
+            },
+            vaultKeeps(){
+                return this.$store.state.activeVaultKeeps
             }
         }
     }
