@@ -16,7 +16,6 @@ let auth = axios.create({
     withCredentials: true
 })
 
-// used to make an external api call to get recipes
 
 
 vue.use(vuex)
@@ -60,8 +59,8 @@ var store = new vuex.Store({
                 commit('handleError', err)
             })
         },
-        getKeepsByVault({commit, dispatch}, payload){debugger
-            api('vaultkeeps/'+payload.vaultId)
+        getKeepsByVault({commit, dispatch}, payload){
+            api('vaultkeeps/'+payload)
             .then(res => {
                 commit('setActiveVaultKeeps', res.data)
             })
@@ -69,6 +68,7 @@ var store = new vuex.Store({
                 commit('handleError', err)
             })
         },
+   
         // Keep actions -------------------------------------
         addKeep({commit, dispatch}, payload){
             api.post('keeps', payload)

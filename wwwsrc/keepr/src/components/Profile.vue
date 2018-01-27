@@ -2,11 +2,15 @@
     <div>
         <div class="row text-center">
             <div class="col-xs-6">
-                <button v-if="user.username" class="btn new" data-toggle="modal" data-target="#keepModal"><h3>+ New Keep +</h3></button>
+                <button v-if="user.username" class="btn new" data-toggle="modal" data-target="#keepModal">
+                    <h3>+ New Keep +</h3>
+                </button>
             </div>
             <div class="col-xs-6">
-                    <button v-if="user.username" class="btn new" data-toggle="modal" data-target="#vaultModal"><h3>+ New Vault +</h3></button>
-                </div>
+                <button v-if="user.username" class="btn new" data-toggle="modal" data-target="#vaultModal">
+                    <h3>+ New Vault +</h3>
+                </button>
+            </div>
 
 
             <div id="keepModal" class="modal fade" role="dialog">
@@ -49,36 +53,36 @@
             </div>
 
             <div id="vaultModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h1 class="modal-title">New Vault</h1>
-                            </div>
-                            <div class="modal-body">
-                                <form class="form" @submit.prevent="addVault">
-    
-                                    <div class="form-group">
-                                        <label for="title">Name</label>
-                                        <input class="form-control" type="text" name="name" v-model="vault.name" maxlength="20" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <input class="form-control" type="text" name="description" v-model="vault.description" maxlength="30" required>
-                                    </div>
-                                   
-                                    <div class="form-group">
-                                        <button class="btn btn-success" type="submit">Create</button>
-                                        <br>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" @click="clearVaultForm" data-dismiss="modal">Cancel</button>
-                            </div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h1 class="modal-title">New Vault</h1>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form" @submit.prevent="addVault">
+
+                                <div class="form-group">
+                                    <label for="title">Name</label>
+                                    <input class="form-control" type="text" name="name" v-model="vault.name" maxlength="20" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <input class="form-control" type="text" name="description" v-model="vault.description" maxlength="30" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="submit">Create</button>
+                                    <br>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" @click="clearVaultForm" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
@@ -88,23 +92,25 @@
         </div>
 
         <div class="row text-center">
-            <h2>Vaults</h2><hr>
-                <div v-for="vault in vaults">
-                    <div v-if="vault.userId == user.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
-                        <div class="card-title">
-                        <router-link :to="'/vault'+vault.id" style="font-size: 2em">{{vault.name}}</router-link>
-                            </div>
-                           
-                            <div class="card-footer">
-                                    <button @click="deleteVault(vault)" class="btn btn-danger">Delete</button>
-                                </div>
-                        
+            <h2>Vaults</h2>
+            <hr>
+            <div v-for="vault in vaults">
+                <div v-if="vault.userId == user.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
+                    <div class="card-title">
+                        <router-link :to="'/vault/'+vault.id" style="font-size: 2em">{{vault.name}}</router-link>
                     </div>
+
+                    <div class="card-footer">
+                        <button @click="deleteVault(vault)" class="btn btn-danger">Delete</button>
+                    </div>
+
                 </div>
             </div>
-<hr>
+        </div>
+        <hr>
         <div class="row text-center">
-                <h2>Keeps</h2><hr>
+            <h2>Keeps</h2>
+            <hr>
 
             <div v-for="keep in keeps">
                 <div v-if="keep.userId == user.id" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 card">
@@ -119,7 +125,7 @@
                 </div>
             </div>
         </div>
-<hr>
+        <hr>
     </div>
 </template>
 
@@ -137,7 +143,7 @@
                     imgUrl: '',
                     description: '',
                     public: 'true'
-                
+
                 },
                 vault: {
                     name: '',
@@ -158,11 +164,10 @@
             },
             addVault() {
                 this.$store.dispatch('addVault', this.vault)
-                console.log(this.vault)
                 $('#vaultModal').modal('toggle')
                 this.vault = {}
             },
-            deleteVault(vault){
+            deleteVault(vault) {
                 this.$store.dispatch('deleteVault', vault)
             },
             clearKeepForm() {
@@ -174,7 +179,7 @@
             deleteKeep(keep) {
                 this.$store.dispatch('deleteKeep', keep)
             },
-            
+
 
         },
 
@@ -185,7 +190,7 @@
             keeps() {
                 return this.$store.state.keeps
             },
-            vaults(){
+            vaults() {
                 return this.$store.state.vaults
             }
         }
@@ -196,8 +201,6 @@
 
 
 <style>
-
-
     .row {
         margin: 0px;
         max-width: 100vw;
@@ -209,7 +212,8 @@
         height: auto;
 
     }
-    .img:hover{
+
+    .img:hover {
         cursor: pointer;
     }
 
@@ -217,19 +221,19 @@
         z-index: 1;
     }
 
-    .new{
+    .new {
         height: 100px;
         width: 15vw;
         font-family: 'Berkshire Swash', cursive;
     }
-    .new:hover{
-        background-color:  rgba(148, 42, 4, 0.452);
+
+    .new:hover {
+        background-color: rgba(148, 42, 4, 0.452);
     }
-    h2{
+
+    h2 {
         background-color: rgba(46, 62, 209, 0.123);
         width: 65%;
         margin: auto
     }
-
-
 </style>
