@@ -8,10 +8,10 @@ module.exports = {
   dev: {
 
     // Paths
-    // assetsSubDirectory: '../../../wwwroot/static',
-    // assetsPublicPath: '../../../wwwroot',
-    assetsSubDirectory: 'static',		    
-    assetsPublicPath: '/',
+    assetsSubDirectory: '../../../wwwroot/static',
+    assetsPublicPath: '../../../wwwroot',
+    // assetsSubDirectory: 'static',		    
+    // assetsPublicPath: '/',
     proxyTable: {},
 
     // Various Dev Server settings
@@ -40,12 +40,12 @@ module.exports = {
 
   build: {
     // Template for index.html
-    // index: path.resolve(__dirname, '../../../wwwroot/index.html'),
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../../../wwwroot/index.html'),
+    // index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    // assetsRoot: path.resolve(__dirname, '../../../wwwroot'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '../../../wwwroot'),
+    // assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
